@@ -26,6 +26,10 @@ const bookingSchema = mongoose.Schema(
       required: true,
       description: 'The end date of the booking',
     },
+    isDeleted: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,

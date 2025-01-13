@@ -1,5 +1,5 @@
-const moment = require('moment');
 const Booking = require('../models/bookingModel');
+const moment = require('moment');
 
 const getBookingDetails = async (req, res) => {
   try {
@@ -32,6 +32,7 @@ const getBookingDetails = async (req, res) => {
 
     const bookings = await Booking.find({
       product_id,
+      isDeleted: false,
       $or: [
         { start_date: { $gte: startOfMonth, $lte: endOfMonth } },
         { end_date: { $gte: startOfMonth, $lte: endOfMonth } },

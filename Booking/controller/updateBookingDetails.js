@@ -5,7 +5,10 @@ const updateBooking = async (req, res) => {
     const booking_id = req.params.bid;
     const { booking_name, start_date, end_date, notes } = req.body;
 
-    const booking = await Booking.findById(booking_id);
+    const booking = await Booking.findById({
+      _id: booking_id,
+      isDeleted: false,
+    });
     if (!booking) {
       return res.status(404).json({ message: 'Booking not found' });
     }
@@ -29,6 +32,7 @@ const updateBooking = async (req, res) => {
     const overlappingBookings = await Booking.find({
       product_id: pid,
       _id: { $ne: booking_id },
+      isDeleted: false,
       $or: [
         {
           start_date: { $lte: new Date(end_date) },
@@ -52,7 +56,7 @@ const updateBooking = async (req, res) => {
     }
 
     const updatedBooking = await Booking.findByIdAndUpdate(
-      booking_id,
+      { _id: booking_id, isDeleted: false },
       {
         booking_name,
         start_date: new Date(start_date),

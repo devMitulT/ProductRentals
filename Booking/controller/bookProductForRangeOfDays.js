@@ -24,6 +24,7 @@ const bookProductForGivenRangeOfDays = async (req, res) => {
 
     const overlappingBookings = await Booking.find({
       product_id,
+      isDeleted: false,
       $or: [
         {
           start_date: { $lte: new Date(end_date) },
